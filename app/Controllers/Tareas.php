@@ -12,7 +12,7 @@ class Tareas extends BaseController
             $session->set('tareas', [
                 [
                     'id' => 1,
-                    'nombre' => 'Aprender PHP',
+                    'nombre' => 'Veko estuvo aqui',
                     'estado' => 'Pendiente'
                 ],
                 [
