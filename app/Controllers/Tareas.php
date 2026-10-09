@@ -24,7 +24,7 @@ class Tareas extends BaseController
         }
 
         $data = [
-            'titulo' => 'Listado de tareas',
+            'titulo' => 'Cambio de texto para probar ramas en git | listado de tareas',
             'tareas' => $session->get('tareas'),
             'errores' => session()->getFlashdata('errores')
         ];
