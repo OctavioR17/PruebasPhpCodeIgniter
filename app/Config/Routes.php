@@ -4,7 +4,7 @@ use CodeIgniter\Router\RouteCollection;
 
 /** @var RouteCollection $routes */
 $routes->get('/', 'Home::index');
-$routes->get('/dashboard','Dashboard::index'); 
+//$routes->get('/dashboard','Dashboard::index'); 
 #/dashboard: direccion o ruta que visitaremos
 #Dashboard: es el nombre del controlador
 #index: es el metodo que se ejecutara

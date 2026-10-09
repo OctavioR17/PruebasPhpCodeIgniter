@@ -24,6 +24,8 @@
     <main class="container py-4">
 
         <h1 class="h3 mb-4"><?= esc($titulo) ?></h1>
+        
+        
 
         <div class="card border-0 shadow-sm">
             <div class="card-body">
