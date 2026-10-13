@@ -8,17 +8,30 @@ class Tareas extends BaseController
     {
         $session = session();
 
+        // Línea temporal para forzar el reinicio de session
+        //$session->remove('tareas') ;
+
         if ($session->get('tareas') === null) {
             $session->set('tareas', [
                 [
                     'id' => 1,
                     'nombre' => 'Veko estuvo aqui',
-                    'estado' => 'Pendiente'
+                    'estado' => 'Completada'
                 ],
                 [
                     'id' => 2,
+                    'nombre' => 'Aprender PHP',
+                    'estado' => 'Pendiente'
+                ],
+                [
+                    'id' => 3,
                     'nombre' => 'Practicar CodeIgniter 4',
-                    'estado' => 'Completada'
+                    'estado' => 'Pendiente'
+                ],
+                [
+                    'id' => 4,
+                    'nombre' => 'Aprender Around / Estudiar',
+                    'estado' => 'Pendiente'
                 ]
             ]);
         }
@@ -63,5 +76,43 @@ class Tareas extends BaseController
         return redirect()
             ->to(site_url('tareas'))
             ->with('mensaje', '¡Tarea registrada correctamente!');
+    }
+
+    public function editar($id)
+    {
+        $session = session();
+        $tareas = $session->get('tareas') ?? [];
+
+        foreach ($tareas as &$tarea) {
+            if ($tarea['id'] == $id) {
+                // Alternar estado
+                $tarea['estado'] = ($tarea['estado'] === 'Pendiente') ? 'Completada' : 'Pendiente';
+                break;
+            }
+        }
+
+        $session->set('tareas', $tareas);
+
+        return redirect()
+            ->to(site_url('tareas'))
+            ->with('mensaje', '¡Estado actualizado correctamente!');
+    }
+
+    public function borrar($id)
+    {
+        $session = session();
+        $tareas = $session->get('tareas') ?? [];
+
+        // Filtrar quitando el id seleccionado
+        $tareasFiltradas = array_filter($tareas, function ($tarea) use ($id) {
+            return $tarea['id'] != $id;
+        });
+
+        // array_values reindexa el arreglo numérico
+        $session->set('tareas', array_values($tareasFiltradas));
+
+        return redirect()
+            ->to(site_url('tareas'))
+            ->with('mensaje', '¡Tarea eliminada correctamente!');
     }
 }
