@@ -8,17 +8,30 @@ class Tareas extends BaseController
     {
         $session = session();
 
+        // Línea temporal para forzar el reinicio:
+        $session->remove('tareas') ;
+
         if ($session->get('tareas') === null) {
             $session->set('tareas', [
                 [
                     'id' => 1,
                     'nombre' => 'Veko estuvo aqui',
-                    'estado' => 'Pendiente'
+                    'estado' => 'Completada'
                 ],
                 [
                     'id' => 2,
+                    'nombre' => 'Aprender PHP',
+                    'estado' => 'Pendiente'
+                ],
+                [
+                    'id' => 3,
                     'nombre' => 'Practicar CodeIgniter 4',
-                    'estado' => 'Completada'
+                    'estado' => 'Pendiente'
+                ],
+                [
+                    'id' => 4,
+                    'nombre' => 'Aprender Around / Estudiar',
+                    'estado' => 'Pendiente'
                 ]
             ]);
         }
