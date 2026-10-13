@@ -8,7 +8,7 @@ class Tareas extends BaseController
     {
         $session = session();
 
-        // Línea temporal para forzar el reinicio:
+        // Línea temporal para forzar el reinicio de session
         //$session->remove('tareas') ;
 
         if ($session->get('tareas') === null) {
