@@ -24,7 +24,7 @@
 
         <h1 class="h3 mb-4"><?= esc($titulo) ?></h1>
 
-        <!-- Mensaje de éxito flashdata -->
+        <!-- Alerta de éxito -->
         <?php if (session()->getFlashdata('mensaje')): ?>
             <div class="alert alert-success alert-dismissible fade show" role="alert">
                 <?= esc(session()->getFlashdata('mensaje')) ?>
@@ -49,7 +49,6 @@
                 <h2 class="h5 card-title mb-3">Nueva Tarea</h2>
                 
                 <form action="<?= site_url('tareas/guardar') ?>" method="post">
-                    <!-- Protección CSRF obligatoria en CI4 -->
                     <?= csrf_field() ?>
 
                     <div class="row g-2 align-items-center">
@@ -86,16 +85,17 @@
                     <table class="table table-hover align-middle mb-0">
                         <thead>
                             <tr>
-                                <th style="width: 80px;">ID</th>
+                                <th style="width: 70px;">ID</th>
                                 <th>Tarea</th>
-                                <th style="width: 150px;">Estado</th>
+                                <th style="width: 140px;">Estado</th>
+                                <th style="width: 220px;" class="text-end">Acciones</th>
                             </tr>
                         </thead>
 
                         <tbody>
                             <?php if (empty($tareas)): ?>
                                 <tr>
-                                    <td colspan="3" class="text-center text-muted py-3">
+                                    <td colspan="4" class="text-center text-muted py-3">
                                         No hay tareas registradas.
                                     </td>
                                 </tr>
@@ -103,17 +103,31 @@
                                 <?php foreach ($tareas as $tarea): ?>
                                     <tr>
                                         <td><?= esc($tarea['id']) ?></td>
-                                        <td><?= esc($tarea['nombre']) ?></td>
                                         <td>
                                             <?php if ($tarea['estado'] === 'Completada'): ?>
-                                                <span class="badge text-bg-success">
-                                                    Completada
-                                                </span>
+                                                <del class="text-muted"><?= esc($tarea['nombre']) ?></del>
                                             <?php else: ?>
-                                                <span class="badge text-bg-warning">
-                                                    Pendiente
-                                                </span>
+                                                <?= esc($tarea['nombre']) ?>
                                             <?php endif; ?>
+                                        </td>
+                                        <td>
+                                            <?php if ($tarea['estado'] === 'Completada'): ?>
+                                                <span class="badge text-bg-success">Completada</span>
+                                            <?php else: ?>
+                                                <span class="badge text-bg-warning">Pendiente</span>
+                                            <?php endif; ?>
+                                        </td>
+                                        <td class="text-end">
+                                            <a href="<?= site_url('tareas/editar/' . $tarea['id']) ?>" 
+                                               class="btn btn-sm <?= $tarea['estado'] === 'Completada' ? 'btn-outline-secondary' : 'btn-outline-success' ?>">
+                                                <?= $tarea['estado'] === 'Completada' ? 'Desmarcar' : 'Completar' ?>
+                                            </a>
+
+                                            <a href="<?= site_url('tareas/borrar/' . $tarea['id']) ?>" 
+                                               class="btn btn-sm btn-outline-danger"
+                                               onclick="return confirm('¿Estás seguro de que deseas eliminar esta tarea?');">
+                                                Eliminar
+                                            </a>
                                         </td>
                                     </tr>
                                 <?php endforeach; ?>
@@ -127,7 +141,6 @@
 
     </main>
 
-    <!-- Bootstrap JS para permitir cerrar alertas -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
